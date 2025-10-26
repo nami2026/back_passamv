@@ -8,10 +8,10 @@
 		<version>3.5.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.passamv</groupId>
-	<artifactId>financial</artifactId>
+	<groupId>com</groupId>
+	<artifactId>passamv</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>financial</name>
+	<name>passamv</name>
 	<description>Exam for passamv</description>
 	<url/>
 	<licenses>
