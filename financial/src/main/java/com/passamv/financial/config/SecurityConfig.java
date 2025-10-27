@@ -1,6 +1,7 @@
 package com.passamv.financial.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -44,12 +45,12 @@ public class SecurityConfig {
 
                 )
                 .sessionManagement(manager -> manager
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(
                         request -> {
                             CorsConfiguration configuration = new CorsConfiguration();
                             configuration.setAllowedOrigins(List.of("https://passamv.netlify.app"));
-                            configuration.setAllowedMethods(List.of("GET", "POST"));
+                            configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                             configuration.setAllowCredentials(true);
                             configuration.addExposedHeader("message");
                             configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
@@ -59,6 +60,16 @@ public class SecurityConfig {
 
 
         return http.build();
+    }
+
+    @Bean
+    public ServletContextInitializer servletContextInitializer() {
+        return servletContext -> {
+            servletContext.getSessionCookieConfig().setSecure(true);
+            servletContext.getSessionCookieConfig().setHttpOnly(true);
+            servletContext.getSessionCookieConfig().setPath("/");
+            servletContext.getSessionCookieConfig().setDomain("onrender.com");
+        };
     }
 
     @Bean

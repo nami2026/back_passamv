@@ -9,6 +9,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
 
@@ -35,12 +37,22 @@ public class JwtService {
                 .signWith(getSignInKey())
                 .compact();
 
-        Cookie cookie = new Cookie("JWT", jwt);
+        /*Cookie cookie = new Cookie("JWT", jwt);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60);
-        response.addCookie(cookie);
+        response.addCookie(cookie);*/
+
+        ResponseCookie cookie = ResponseCookie.from("JWT", jwt)
+                .httpOnly(true)
+                .secure(true) // requerido para SameSite=None
+                .path("/")
+                .sameSite("None") // permite enviar la cookie desde otro dominio (Netlify)
+                .maxAge(24 * 60 * 60)
+                .build();
+
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
     public String getJwtFromCookie(HttpServletRequest request){
@@ -63,10 +75,20 @@ public class JwtService {
         }
     }
     public void removeTokenFromCookie(HttpServletResponse response){
-        Cookie cookie = new Cookie("JWT", null);
+        /*Cookie cookie = new Cookie("JWT", null);
         cookie.setPath("/");
 
-        response.addCookie(cookie);
+        response.addCookie(cookie);*/
+
+        ResponseCookie cookie = ResponseCookie.from("JWT", "")
+                .path("/")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .maxAge(0)
+                .build();
+
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
     private SecretKey getSignInKey() {
