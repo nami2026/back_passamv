@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "https://passamv.netlify.app", allowCredentials = "true")
+@CrossOrigin(origins = "https://sparkly-elf-c24fcc.netlify.app", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/v1/")
 public class ComponentAmvController {

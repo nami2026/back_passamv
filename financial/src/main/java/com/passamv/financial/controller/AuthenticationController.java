@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "https://passamv.netlify.app", allowCredentials = "true")
+@CrossOrigin(origins = "https://sparkly-elf-c24fcc.netlify.app", allowCredentials = "true")
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
