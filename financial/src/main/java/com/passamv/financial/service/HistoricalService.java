@@ -10,6 +10,8 @@ import com.passamv.financial.repository.HistoricalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HistoricalService {
 
@@ -25,6 +27,10 @@ public class HistoricalService {
                 historical.getRightAnswersId(), null, null, null);
 
         return historicalRepository.save(historicalEntity);
+    }
+
+    public List<Historical> getByUserId(Integer userId) {
+        return historicalRepository.getByUserId(userId);
     }
 
 }

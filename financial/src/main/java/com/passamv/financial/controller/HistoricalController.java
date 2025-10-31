@@ -23,4 +23,9 @@ public class HistoricalController {
         return historicalService.save(historical);
     }
 
+    @GetMapping("/historical/user/{userId}")
+    public List<Historical> getByUserId(@PathVariable("userId") Integer userId) {
+        return historicalService.getByUserId(userId);
+    }
+
 }
